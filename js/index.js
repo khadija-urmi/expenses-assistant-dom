@@ -10,7 +10,7 @@ calculateButton.addEventListener('click', function () {
 
     const totalExpenses = software + course + internet;
     const balance = income - totalExpenses;
-    console.log(balance);
+
 
     const totalExpenseElement = document.getElementById("total-expenses");
     totalExpenseElement.innerText = totalExpenses.toFixed(2);
@@ -20,6 +20,20 @@ calculateButton.addEventListener('click', function () {
 
     const result = document.getElementById("results");
     result.classList.remove('hidden');
+
+    //adding expense history
+
+    const historyItem = document.createElement("div");
+    historyItem.className = "bg-white p-3 rounded-md border-1-2 border-indigo";
+    historyItem.innerHTML = `
+    <p class="text-xs text-gray-500">${new Date().toLocaleDateString()}</p>
+    <p class="text-xs text-gray-500">Income : $${income.toFixed(2)}
+    <p class="text-xs text-gray-500">Expenses : $${totalExpenses.toFixed(2)}
+    <p class="text-xs text-gray-500">Balance : $${balance.toFixed(2)}
+    `
+    const historyContainer = document.getElementById("history-list");
+    historyContainer.insertBefore(historyItem, historyContainer.firstChild);
+    document.getElementById("history-section").classList.add("hidden");
 
 });
 // add event for saving button
@@ -45,3 +59,35 @@ calculateSavingButton.addEventListener("click", function () {
     const remainingBalanceElement = document.getElementById('remaining-balance');
     remainingBalanceElement.innerText = remainingBalance.toFixed(2);
 });
+
+// history tab functionality
+
+const historyTab = document.getElementById('history-tab');
+const assistantTab = document.getElementById('assistant-tab');
+historyTab.addEventListener('click', function () {
+    historyTab.classList.add('text-white', 'bg-gradient-to-r', 'from-blue-500', 'to-purple-600');
+    historyTab.classList.remove("text-gray-600");
+
+    assistantTab.classList.remove('text-white', 'bg-gradient-to-r', 'from-blue-500', 'to-purple-600');
+    assistantTab.classList.add("text-gray-600");
+
+    // remove expense form
+    document.getElementById("expense-form").classList.add("hidden");
+    document.getElementById("history-section").classList.remove("hidden");
+
+})
+// assistant tab functionality
+
+assistantTab.addEventListener('click', function () {
+    assistantTab.classList.add('text-white', 'bg-gradient-to-r', 'from-blue-500', 'to-purple-600');
+    assistantTab.classList.remove("text-gray-600");
+
+    historyTab.classList.remove('text-white', 'bg-gradient-to-r', 'from-blue-500', 'to-purple-600');
+    historyTab.classList.add("text-gray-600");
+
+    // add expense form & remove  history-section
+    document.getElementById("history-section").classList.add("hidden");
+    document.getElementById("expense-form").classList.remove("hidden");
+
+})
+
